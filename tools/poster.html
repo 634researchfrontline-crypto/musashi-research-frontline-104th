@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>武蔵研究最前線 講演スケジュール（印刷用）</title>
+	<link rel="stylesheet" href="poster.css">
+</head>
+<body>
+	<main class="poster">
+		<header class="top-head">
+			<div class="brand-wrap">
+				<img class="logo" src="../assets/202603_634fromtline_logo_horizontal_green.png" alt="武蔵研究最前線 ロゴ">
+				<div class="title-wrap">
+					<h1>タイムテーブル</h1>
+					
+					<p class="venue">西棟3階 演習室3-2</p>
+				</div>
+			</div>
+			<aside class="qr-area" aria-label="WebサイトQRコードエリア">
+				<div class="qr-box">QR</div>
+				<p>Webサイトはこちら</p>
+			</aside>
+		</header>
+
+		<section class="columns" aria-live="polite">
+			<article class="day-column">
+				<h2 class="day-label">25(土)</h2>
+				<div class="schedule-list" id="day-25"></div>
+			</article>
+
+			<article class="day-column">
+				<h2 class="day-label">26(日)</h2>
+				<div class="schedule-list" id="day-26"></div>
+			</article>
+		</section>
+	</main>
+
+	<script>
+		const DAYS = [25, 26];
+		const PURPLE_ID_TIMES = new Set(['11:07', '11:41', '14:37']);
+
+		const formatTime = (value) => {
+			if (!value) return '';
+			const parts = value.split(':');
+			return `${parts[0]}:${parts[1]}`;
+		};
+
+		const normalizeText = (value) => {
+			if (value === null || value === undefined) return '';
+			return String(value).trim();
+		};
+
+		const escapeHtml = (value) =>
+			String(value)
+				.replaceAll('&', '&amp;')
+				.replaceAll('<', '&lt;')
+				.replaceAll('>', '&gt;')
+				.replaceAll('"', '&quot;')
+				.replaceAll("'", '&#39;');
+
+		const isTeacherGrade = (grade) => normalizeText(grade) === '教員';
+		const isObGrade = (grade) => normalizeText(grade).toUpperCase() === 'OB';
+
+		const buildRoleLabel = (presentation) => {
+			const grade = normalizeText(presentation.grade);
+			const affiliation = normalizeText(presentation.affiliation);
+
+			if (isTeacherGrade(grade)) {
+				return affiliation ? `${affiliation}教員` : '教員';
+			}
+
+			if (isObGrade(grade)) {
+				return affiliation ? `${affiliation}OB` : 'OB';
+			}
+
+			return grade;
+		};
+
+		const buildPresenterHtml = (presentation) => {
+			const presenter = normalizeText(presentation.presenter);
+			if (!presenter) return '';
+
+			const escapedName = escapeHtml(presenter);
+			if (isTeacherGrade(presentation.grade)) {
+				return `${escapedName}<span class="talk-honorific">先生</span>`;
+			}
+
+			if (isObGrade(presentation.grade)) {
+				return `${escapedName}<span class="talk-honorific">さん</span>`;
+			}
+
+			return escapedName;
+		};
+
+		const pickMeta = (presentation) => {
+			const presenterHtml = buildPresenterHtml(presentation);
+			const roleLabel = buildRoleLabel(presentation);
+			if (!presenterHtml && !roleLabel) return '';
+			if (!presenterHtml) return escapeHtml(roleLabel);
+			if (!roleLabel) return presenterHtml;
+			return `${presenterHtml}／${escapeHtml(roleLabel)}`;
+		};
+
+		const createItem = (presentation) => {
+			const item = document.createElement('article');
+			item.className = 'talk-item';
+
+			const time = document.createElement('div');
+			time.className = 'talk-time';
+			time.textContent = formatTime(presentation.time);
+
+			const body = document.createElement('div');
+			body.className = 'talk-body';
+
+			const titleLine = document.createElement('div');
+			titleLine.className = 'talk-title-line';
+
+			const idBadge = document.createElement('span');
+			idBadge.className = 'talk-id';
+			idBadge.textContent = normalizeText(presentation.id);
+			if (PURPLE_ID_TIMES.has(formatTime(presentation.time))) {
+				idBadge.classList.add('is-purple');
+			}
+
+			const title = document.createElement('h3');
+			title.className = 'talk-title';
+			const titleText = normalizeText(presentation.title);
+			title.textContent = titleText;
+
+			const subtitleText = normalizeText(presentation.subtitle);
+			const subtitle = document.createElement('p');
+			subtitle.className = 'talk-subtitle';
+			subtitle.textContent = subtitleText;
+			if (!subtitleText) {
+				subtitle.classList.add('is-empty');
+			}
+
+			const meta = document.createElement('p');
+			meta.className = 'talk-meta';
+			meta.innerHTML = pickMeta(presentation);
+
+			titleLine.append(idBadge, title);
+			body.append(titleLine);
+			body.append(subtitle);
+			body.append(meta);
+			item.append(time, body);
+			return item;
+		};
+
+		const applyFitScale = (maxCount) => {
+			const fitScale = Math.max(0.72, Math.min(1, 25 / Math.max(maxCount, 1)));
+			document.documentElement.style.setProperty('--fit-scale', fitScale.toFixed(3));
+		};
+
+		const renderTimetable = (presentations) => {
+			const counts = [];
+
+			DAYS.forEach((day) => {
+				const target = document.getElementById(`day-${day}`);
+				if (!target) return;
+				const items = presentations
+					.filter((presentation) => Number(presentation.day) === day)
+					.sort((a, b) => String(a.time).localeCompare(String(b.time)))
+					.map(createItem);
+
+				counts.push(items.length);
+				target.style.setProperty('--row-count', String(Math.max(items.length, 1)));
+				target.replaceChildren(...items);
+			});
+
+			applyFitScale(Math.max(...counts, 1));
+		};
+
+		fetch('../data/researches.json')
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(`Failed to load data: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then((data) => {
+				renderTimetable(Array.isArray(data.presentations) ? data.presentations : []);
+			})
+			.catch((error) => {
+				console.error(error);
+				document.querySelector('.columns').insertAdjacentHTML(
+					'beforebegin',
+					'<p class="load-error">researches.json の読み込みに失敗しました。</p>'
+				);
+			});
+	</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+:root {
+  --fit-scale: 1;
+  --id-size: 7.5mm;
+  --id-gap: 1.2mm;
+  --red-700: #d24545;
+  --red-600: #dd5754;
+  --green-800: #0d6b4a;
+  --green-700: #178158;
+  --green-100: #d6ede2;
+  --text-900: #1a1a1a;
+  --text-700: #5f6468;
+  --line: #d8ddd9;
+}
+
+@page {
+  size: A3 portrait;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #ecefec;
+  color: var(--text-900);
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+.poster {
+  width: 297mm;
+  height: 420mm;
+  box-sizing: border-box;
+  padding: 3.8mm 6mm 6mm;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.4mm;
+  overflow: hidden;
+  background: #ecefec;
+}
+
+.top-head {
+  display: grid;
+  grid-template-columns: 1fr 36mm;
+  gap: 1.8mm;
+  align-items: start;
+}
+
+.brand-wrap {
+  display: grid;
+  grid-template-columns: 100mm 1fr;
+  gap: 2.2mm;
+  align-items: center;
+  min-width: 0;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.title-wrap h1 {
+  margin: 0;
+  font-size: calc(24.5pt * var(--fit-scale));
+  line-height: 1.08;
+  color: #0f5f43;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.copy {
+  margin: 0.2mm 0 0;
+  font-size: calc(12.4pt * var(--fit-scale));
+  line-height: 1.12;
+  color: var(--text-700);
+  font-weight: 800;
+}
+
+.venue {
+  margin: 1.2mm 0 0;
+  font-size: calc(13.2pt * var(--fit-scale));
+  line-height: 1.1;
+  color: #0f5f43;
+  font-weight: 900;
+}
+
+.qr-area {
+  display: grid;
+  gap: 1.2mm;
+  justify-items: end;
+}
+
+.qr-box {
+  width: 30mm;
+  height: 30mm;
+  border: 0.45mm dashed var(--green-700);
+  color: var(--green-700);
+  display: grid;
+  place-items: center;
+  font-size: calc(10pt * var(--fit-scale));
+  font-weight: 800;
+}
+
+.qr-area p {
+  margin: 0;
+  font-size: calc(7.6pt * var(--fit-scale));
+  color: var(--text-700);
+  font-weight: 700;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4mm;
+  min-height: 0;
+}
+
+.day-column {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border: 0.32mm solid #c9d4ce;
+  border-radius: 2.6mm;
+  background: #fff;
+  overflow: hidden;
+}
+
+.day-label {
+  margin: 0;
+  padding: 1.2mm 2.2mm;
+  text-align: center;
+  color: #fff;
+  background: var(--green-700);
+  border: 0.6mm solid var(--green-700);
+  font-size: calc(16.8pt * var(--fit-scale));
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.schedule-list {
+  --row-count: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(var(--row-count), minmax(0, 1fr));
+}
+
+.talk-item {
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 14.5% 1fr;
+  gap: 1.4mm;
+  align-items: stretch;
+  padding: 0.55mm 1.25mm;
+  border-bottom: 0.22mm solid var(--line);
+  overflow: hidden;
+}
+
+.talk-item:last-child {
+  border-bottom: 0;
+}
+
+.talk-time {
+  color: var(--green-700);
+  font-size: calc(12.7pt * var(--fit-scale));
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.talk-body {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.talk-title-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--id-gap);
+  align-items: center;
+}
+
+.talk-id {
+  min-width: var(--id-size);
+  height: var(--id-size);
+  padding: 0 1mm;
+  box-sizing: border-box;
+  background: var(--green-700);
+  color: #fff;
+  display: inline-grid;
+  place-items: center;
+  font-size: calc(10pt * var(--fit-scale));
+  line-height: 1;
+  font-weight: 900;
+  border-radius: 0.8mm;
+}
+
+.talk-id.is-purple {
+  background: #6f4aa0;
+}
+
+.talk-title {
+  margin: 0;
+  min-width: 0;
+  font-size: calc(10.4pt * var(--fit-scale));
+  line-height: 1.15;
+  font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.talk-subtitle {
+  margin: 0.25mm 0 0;
+  font-size: calc(8.1pt * var(--fit-scale));
+  line-height: 1.1;
+  color: #4f5a55;
+  font-weight: 700;
+  padding-left: calc(var(--id-size) + var(--id-gap));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.talk-subtitle.is-empty {
+  visibility: hidden;
+}
+
+.talk-meta {
+  margin: 0;
+  align-self: end;
+  font-size: calc(9.6pt * var(--fit-scale));
+  line-height: 1.15;
+  color: #49514d;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.talk-honorific {
+  font-size: 0.78em;
+  opacity: 0.8;
+  margin-left: 0.2em;
+}
+
+.load-error {
+  margin: 0;
+  padding: 3mm;
+  border: 0.35mm solid #dc8b8b;
+  color: #a23636;
+  background: #fff3f3;
+  border-radius: 1.8mm;
+  font-size: 10pt;
+  font-weight: 700;
+}
+
+@media print {
+  html,
+  body {
+    margin: 0;
+    width: 297mm;
+    height: 420mm;
+    overflow: hidden;
+    background: #ecefec;
+  }
+
+  .poster {
+    padding: 3.8mm 6mm 6mm;
+  }
+}
+
+@media screen {
+  body {
+    background: #ecefec;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .poster {
+    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.08);
+  }
+}

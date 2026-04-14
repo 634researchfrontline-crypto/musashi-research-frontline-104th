@@ -1,0 +1,407 @@
+:root {
+	--neon-blue: #00f2ff;
+	--neon-pink: #ff00ea;
+	--neon-yellow: #fff200;
+	--neon-lime: #b6ff00;
+	--emergency-red: #ff0000;
+	--city-purple: #6a00ff;
+	--panel-bg: rgba(10, 10, 10, 0.92);
+}
+
+body, html {
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+	background:
+		radial-gradient(circle at 15% 20%, rgba(0, 242, 255, 0.08) 0%, transparent 40%),
+		radial-gradient(circle at 80% 10%, rgba(255, 0, 234, 0.08) 0%, transparent 42%),
+		linear-gradient(180deg, #020202 0%, #000 70%);
+	color: #fff;
+	font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+	overflow: hidden;
+	display: grid;
+	grid-template-rows: 8vh 84vh 8vh;
+	grid-template-columns: 65vw 35vw;
+	font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+button {
+	font: inherit;
+}
+
+/* プログレスバー（画面上端） */
+.header-bar {
+	grid-column: 1 / span 2;
+	background: linear-gradient(90deg, #0a0a0a, #141414, #0a0a0a);
+	position: relative;
+	border-bottom: 2px solid #2e2e2e;
+}
+
+#progress-fill {
+	height: 100%;
+	width: 0%;
+	background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--city-purple));
+	box-shadow: 0 0 20px var(--neon-blue), 0 0 35px rgba(255, 0, 234, 0.35);
+	transition: width 1s linear;
+}
+
+/* メインタイマー（左側） */
+.main-timer-container {
+	grid-row: 2;
+	grid-column: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-right: 1px solid #222;
+	position: relative;
+	padding: 0 2vw 2vh;
+}
+
+.timer-stage {
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	gap: 0.9vh;
+}
+
+#timer-display {
+	font-size: 35vh;
+	font-weight: 900;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.05em;
+	line-height: 0.9;
+	color: transparent;
+	background-image:
+		radial-gradient(circle, rgba(182, 255, 0, 0.98) 0.09em, rgba(94, 141, 0, 0.8) 0.18em, rgba(20, 34, 0, 0.92) 0.22em),
+		radial-gradient(circle, rgba(182, 255, 0, 0.65) 0.08em, rgba(12, 26, 0, 0.88) 0.2em);
+	background-size: 0.36em 0.36em, 0.18em 0.18em;
+	background-position: 0 0, 0.09em 0.09em;
+	-webkit-background-clip: text;
+	background-clip: text;
+	text-shadow: 0 0 22px rgba(182, 255, 0, 0.48), 0 0 48px rgba(182, 255, 0, 0.24);
+	position: relative;
+	animation: cityPulse 2.6s ease-in-out infinite;
+	text-align: center;
+}
+
+.timer-heading {
+	font-size: 1.8vh;
+	letter-spacing: 0.28em;
+	font-weight: 800;
+	color: rgba(182, 255, 0, 0.72);
+	text-transform: uppercase;
+}
+
+.sub-label {
+	font-size: 2vh;
+	color: #444;
+	margin-top: -1vh;
+	letter-spacing: 0.08em;
+}
+
+.timer-controls {
+	position: absolute;
+	right: 2.2vw;
+	bottom: 2.6vh;
+	display: flex;
+	gap: 0.7vh;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	max-width: min(26vw, 420px);
+}
+
+.timer-controls .control-btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.control-btn {
+	background: #111;
+	color: var(--neon-lime);
+	border: 1px solid #2f4b00;
+	font-size: 1.45vh;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	padding: 0.55vh 0.95vh;
+	min-width: 5.3vw;
+	cursor: pointer;
+	text-transform: uppercase;
+	box-shadow: inset 0 0 0.7vh rgba(182, 255, 0, 0.16), 0 0 0.9vh rgba(182, 255, 0, 0.2);
+	transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.control-btn:hover {
+	filter: brightness(1.2);
+	transform: translateY(-1px);
+}
+
+.control-btn:focus-visible,
+#start-btn:focus-visible {
+	outline: 2px solid var(--neon-yellow);
+	outline-offset: 3px;
+}
+
+/* インフォパネル（右側） */
+.info-panel {
+	grid-row: 2;
+	grid-column: 2;
+	padding: 2.2vh 2vh 1.8vh;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5vh;
+	background: linear-gradient(135deg, #000 0%, #050505 60%, #0a0511 100%);
+}
+
+.brand-strip {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0;
+	align-items: center;
+	justify-items: center;
+	padding: 1vh 1vw 1.2vh;
+	border: 1px solid #bfc3c7;
+	border-radius: 1.2vh;
+	background: #d8dbe0;
+}
+
+.brand-logo {
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+	display: none;
+}
+
+.brand-logo-horizontal {
+	display: block;
+	max-height: 6.3vh;
+}
+
+.brand-logo-square {
+	max-height: 6.3vh;
+}
+
+.flight-panel {
+	display: grid;
+	gap: 1.1vh;
+	padding: 1.5vh 1vw 1.5vh;
+	border-radius: 1.3vh;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+	box-shadow: inset 0 0 0 1px rgba(182, 255, 0, 0.02);
+}
+
+.current-panel {
+	min-height: 31vh;
+}
+
+.next-panel {
+	min-height: 17vh;
+}
+
+.panel-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 1vw;
+	padding-bottom: 0.8vh;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-kicker {
+	font-size: 1.8vh;
+	font-weight: 900;
+	letter-spacing: 0.18em;
+	color: var(--neon-yellow);
+}
+
+.panel-meta {
+	font-size: 1.5vh;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	color: rgba(255, 255, 255, 0.65);
+}
+
+.panel-field {
+	display: grid;
+	gap: 0.6vh;
+}
+
+.panel-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.8vh;
+}
+
+.panel-label {
+	font-size: 1.35vh;
+	letter-spacing: 0.14em;
+	font-weight: 800;
+	color: rgba(255, 255, 255, 0.52);
+	text-transform: uppercase;
+}
+
+.panel-value {
+	color: #fff;
+	font-weight: 800;
+	line-height: 1.15;
+	word-break: break-word;
+}
+
+.name-honorific {
+	font-size: 0.78em;
+	opacity: 0.8;
+	margin-left: 0.2em;
+}
+
+.panel-id {
+	font-size: 3.4vh;
+	letter-spacing: 0.08em;
+	color: var(--neon-lime);
+}
+
+.panel-title {
+	font-size: 2.6vh;
+	letter-spacing: 0.02em;
+}
+
+.panel-subtitle {
+	display: block;
+	font-size: 1.55vh;
+	line-height: 1.2;
+	color: var(--neon-blue);
+	font-weight: 700;
+	margin-top: 0.4vh;
+	min-height: 1em;
+}
+
+.panel-subtitle[hidden] {
+	display: none;
+}
+
+.panel-value:empty::before {
+	content: '—';
+	color: rgba(255, 255, 255, 0.35);
+}
+
+.flight-panel.next-panel .panel-title {
+	font-size: 2.05vh;
+}
+
+.flight-panel.next-panel .panel-id {
+	font-size: 2.7vh;
+}
+
+/* 運営テロップ（画面下端） */
+.footer-ticker {
+	grid-column: 1 / span 2;
+	background: #000;
+	border-top: 2px solid #333;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+
+.ticker-text {
+	white-space: nowrap;
+	font-size: 3vh;
+	animation: scroll 20s linear infinite;
+	color: var(--neon-yellow);
+	text-shadow: 0 0 12px rgba(255, 242, 0, 0.6);
+}
+
+@keyframes scroll {
+	from { transform: translateX(100vw); }
+	to { transform: translateX(-100%); }
+}
+
+@keyframes cityPulse {
+	0%, 100% { filter: brightness(1); }
+	50% { filter: brightness(1.18); }
+}
+
+/* 演出用クラス */
+.emergency {
+	color: var(--emergency-red) !important;
+	text-shadow: 0 0 50px var(--emergency-red) !important;
+	animation: blink 0.5s ease-in-out infinite alternate;
+}
+
+.one-minute-alert {
+	animation: oneMinuteFlash 0.85s ease-out 1;
+}
+
+@keyframes blink {
+	from { opacity: 1; } to { opacity: 0.3; }
+}
+
+@keyframes oneMinuteFlash {
+	0% {
+		filter: brightness(1);
+		text-shadow: 0 0 22px rgba(182, 255, 0, 0.48), 0 0 48px rgba(182, 255, 0, 0.24);
+	}
+	35% {
+		filter: brightness(1.45);
+		text-shadow: 0 0 28px rgba(0, 242, 255, 0.9), 0 0 64px rgba(0, 242, 255, 0.7);
+	}
+	100% {
+		filter: brightness(1);
+		text-shadow: 0 0 22px rgba(182, 255, 0, 0.48), 0 0 48px rgba(182, 255, 0, 0.24);
+	}
+}
+
+/* スタートオーバーレイ */
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--panel-bg);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+	backdrop-filter: blur(6px);
+}
+
+#overlay[hidden] {
+	display: none !important;
+}
+
+#start-btn {
+	padding: 3vh 6vh;
+	font-size: 4vh;
+	font-weight: 900;
+	background: var(--neon-blue);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	box-shadow: 0 0 30px var(--neon-blue), 0 0 60px rgba(255, 0, 234, 0.3);
+	transition: transform 120ms ease, filter 120ms ease;
+}
+
+#start-btn:hover {
+	filter: brightness(1.08);
+	transform: translateY(-1px);
+}
+
+@media (max-width: 1200px), (max-height: 820px) {
+	.brand-logo-horizontal {
+		display: none;
+	}
+
+	.brand-logo-square {
+		display: block;
+	}
+
+	.panel-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.timer-controls {
+		max-width: 34vw;
+	}
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武蔵研究最前線 発表タイマー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="overlay">
+        <button id="start-btn" type="button">START TIMER (6:34)</button>
+    </div>
+
+    <header class="header-bar">
+        <div id="progress-fill"></div>
+    </header>
+
+    <main class="main-timer-container">
+        <div class="timer-stage">
+            <div id="timer-phase-label" class="timer-heading">発表中</div>
+            <div id="timer-display" data-text="06:34">06:34</div>
+            <div id="timer-sub-label" class="sub-label">発表残り</div>
+        </div>
+        <div class="timer-controls">
+            <button id="btn-stop" class="control-btn" type="button">STOP</button>
+            <button id="btn-reset" class="control-btn" type="button">RESET</button>
+            <button id="btn-forward" class="control-btn" type="button">10秒送り</button>
+            <button id="btn-back" class="control-btn" type="button">10秒戻し</button>
+        </div>
+    </main>
+
+    <aside class="info-panel">
+        <div class="brand-strip">
+            <img class="brand-logo brand-logo-horizontal" src="../../assets/202603_634fromtline_logo_horizontal_green.png" alt="武蔵研究最前線">
+            <img class="brand-logo brand-logo-square" src="../../assets/202603_634fromtline_logo_square_green.png" alt="武蔵研究最前線">
+        </div>
+
+        <section class="flight-panel current-panel">
+            <div class="panel-head">
+                <span class="panel-kicker">NOW</span>
+                <span id="current-day-label" class="panel-meta">DAY</span>
+            </div>
+
+            <div class="panel-field">
+                <div class="panel-label">ID</div>
+                <div id="current-id" class="panel-value panel-id"></div>
+            </div>
+
+            <div class="panel-field">
+                <div class="panel-label">タイトル</div>
+                <div id="current-title" class="panel-value panel-title"></div>
+                <div id="current-subtitle" class="panel-subtitle"></div>
+            </div>
+
+            <div class="panel-grid">
+                <div class="panel-field">
+                    <div class="panel-label">発表者</div>
+                    <div id="current-presenter" class="panel-value"></div>
+                </div>
+
+                <div class="panel-field">
+                    <div class="panel-label">関連団体</div>
+                    <div id="current-affiliation" class="panel-value"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="flight-panel next-panel">
+            <div class="panel-head">
+                <span class="panel-kicker">NEXT</span>
+                <span class="panel-meta">次の発表</span>
+            </div>
+
+            <div class="panel-field">
+                <div class="panel-label">ID</div>
+                <div id="next-id" class="panel-value panel-id"></div>
+            </div>
+
+            <div class="panel-field">
+                <div class="panel-label">タイトル</div>
+                <div id="next-title" class="panel-value panel-title"></div>
+                <div id="next-subtitle" class="panel-subtitle"></div>
+            </div>
+
+            <div class="panel-field">
+                <div class="panel-label">発表者</div>
+                <div id="next-presenter" class="panel-value"></div>
+            </div>
+        </section>
+    </aside>
+
+    <footer class="footer-ticker">
+        <div class="ticker-text">
+            【武蔵研究最前線】 質問は各座席のQRコードから投稿してください。 感想は #104thMusashiResearch でツイート！ 専門用語の「超訳」は横の紙芝居をご覧ください。
+        </div>
+    </footer>
+
+    <script src="js/audio.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
