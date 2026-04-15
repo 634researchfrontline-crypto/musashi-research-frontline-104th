@@ -22,10 +22,14 @@
         const resetBtn = document.getElementById('btn-reset');
         const forwardBtn = document.getElementById('btn-forward');
         const backBtn = document.getElementById('btn-back');
+        const jumpPresentationSelect = document.getElementById('select-target-presentation');
+        const jumpPresentationBtn = document.getElementById('btn-jump-presentation');
+        const jumpSectionSelect = document.getElementById('select-target-section');
+        const jumpSectionBtn = document.getElementById('btn-jump-section');
         const overlayEl = document.getElementById('overlay');
         const startBtn = document.getElementById('start-btn');
 
-        if (!display || !progress || !phaseLabel || !subLabel || !currentDayLabel || !currentId || !currentTitle || !currentSubtitle || !currentPresenter || !currentAffiliation || !nextId || !nextTitle || !nextSubtitle || !nextPresenter || !stopBtn || !resetBtn || !forwardBtn || !backBtn || !overlayEl || !startBtn) {
+        if (!display || !progress || !phaseLabel || !subLabel || !currentDayLabel || !currentId || !currentTitle || !currentSubtitle || !currentPresenter || !currentAffiliation || !nextId || !nextTitle || !nextSubtitle || !nextPresenter || !stopBtn || !resetBtn || !forwardBtn || !backBtn || !jumpPresentationSelect || !jumpPresentationBtn || !jumpSectionSelect || !jumpSectionBtn || !overlayEl || !startBtn) {
             return;
         }
 
@@ -51,6 +55,10 @@
             resetBtn,
             forwardBtn,
             backBtn,
+            jumpPresentationSelect,
+            jumpPresentationBtn,
+            jumpSectionSelect,
+            jumpSectionBtn,
             overlayEl,
             startBtn,
             audio: window.AudioEngine,

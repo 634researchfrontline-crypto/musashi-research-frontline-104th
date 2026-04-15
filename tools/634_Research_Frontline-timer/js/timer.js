@@ -24,10 +24,16 @@
             this.resetBtn = options.resetBtn;
             this.forwardBtn = options.forwardBtn;
             this.backBtn = options.backBtn;
+            this.jumpPresentationSelect = options.jumpPresentationSelect;
+            this.jumpPresentationBtn = options.jumpPresentationBtn;
+            this.jumpSectionSelect = options.jumpSectionSelect;
+            this.jumpSectionBtn = options.jumpSectionBtn;
             this.overlayEl = options.overlayEl;
             this.startBtn = options.startBtn;
             this.audio = options.audio;
             this.schedule = [];
+            this.jumpPresentationTargets = [];
+            this.jumpSectionTargets = [];
             this.currentIndex = 0;
             this.timerId = null;
             this.oneMinuteAlertTimeoutId = null;
@@ -41,6 +47,8 @@
             try {
                 await this.loadSchedule();
                 this.isLoaded = true;
+                this.buildJumpTargets();
+                this.populateJumpSelects();
                 this.setToInitialMc();
                 this.render();
             } catch (error) {
@@ -78,6 +86,14 @@
             this.backBtn.addEventListener('click', () => {
                 this.seek(10);
             });
+
+            this.jumpPresentationBtn.addEventListener('click', () => {
+                this.jumpToPresentationSelection();
+            });
+
+            this.jumpSectionBtn.addEventListener('click', () => {
+                this.jumpToSectionSelection();
+            });
         }
 
         start() {
@@ -111,6 +127,36 @@
         setToInitialMc() {
             this.phase = 'mc';
             this.timeLeft = this.getCurrentMcDuration();
+        }
+
+        jumpToPosition(index, phase = 'mc') {
+            if (!this.isLoaded || this.schedule.length === 0) {
+                return;
+            }
+
+            const clampedIndex = Math.max(0, Math.min(this.schedule.length - 1, index));
+            this.currentIndex = clampedIndex;
+            this.phase = phase;
+            this.timeLeft = this.getPhaseDuration();
+            this.render();
+        }
+
+        jumpToPresentationSelection() {
+            const index = Number.parseInt(this.jumpPresentationSelect.value, 10);
+            if (!Number.isFinite(index)) {
+                return;
+            }
+
+            this.jumpToPosition(index, 'mc');
+        }
+
+        jumpToSectionSelection() {
+            const index = Number.parseInt(this.jumpSectionSelect.value, 10);
+            if (!Number.isFinite(index)) {
+                return;
+            }
+
+            this.jumpToPosition(index, 'mc');
         }
 
         seek(delta) {
@@ -190,6 +236,94 @@
                 });
         }
 
+        buildJumpTargets() {
+            this.jumpPresentationTargets = this.schedule.map((presentation, index) => {
+                const dayText = this.normalizeText(presentation.day) || '?';
+                const idText = this.normalizeText(presentation.id) || '-';
+                const title = this.normalizeText(presentation.title) || 'タイトル未設定';
+                const shortTitle = title.length > 30 ? `${title.slice(0, 30)}...` : title;
+
+                return {
+                    value: String(index),
+                    label: `DAY ${dayText} / #${idText} ${shortTitle}`,
+                };
+            });
+
+            const firstByDaySection = new Map();
+            const firstThreeMinuteByDaySection = new Map();
+
+            this.schedule.forEach((presentation, index) => {
+                const day = Number(presentation.day);
+                const section = Number(presentation.section);
+                if (!Number.isFinite(day) || !Number.isFinite(section)) {
+                    return;
+                }
+
+                const key = `${day}-${section}`;
+
+                if (!firstByDaySection.has(key)) {
+                    firstByDaySection.set(key, {
+                        day,
+                        section,
+                        index,
+                    });
+                }
+
+                const mcDuration = this.getMcDurationForPresentation(presentation);
+                if (mcDuration === 180 && !firstThreeMinuteByDaySection.has(key)) {
+                    firstThreeMinuteByDaySection.set(key, {
+                        day,
+                        section,
+                        index,
+                    });
+                }
+            });
+
+            const daySectionKeys = Array.from(firstByDaySection.keys()).sort((left, right) => {
+                const [leftDay, leftSection] = left.split('-').map((part) => Number(part));
+                const [rightDay, rightSection] = right.split('-').map((part) => Number(part));
+                if (leftDay !== rightDay) {
+                    return leftDay - rightDay;
+                }
+                return leftSection - rightSection;
+            });
+
+            this.jumpSectionTargets = daySectionKeys.map((key) => {
+                const first = firstByDaySection.get(key);
+                const threeMinute = firstThreeMinuteByDaySection.get(key);
+                const targetIndex = (threeMinute ?? first).index;
+                const presentation = this.schedule[targetIndex];
+                const dayText = this.normalizeText(presentation?.day) || '?';
+                const idText = this.normalizeText(presentation?.id) || '-';
+                const hasThreeMinute = Boolean(threeMinute);
+                const suffix = hasThreeMinute ? '3:00 MC' : '先頭MC';
+
+                return {
+                    value: String(targetIndex),
+                    label: `DAY ${dayText} 第${first.section}部 ${suffix} ( #${idText} )`,
+                };
+            });
+        }
+
+        populateJumpSelects() {
+            this.jumpPresentationSelect.innerHTML = '';
+            this.jumpSectionSelect.innerHTML = '';
+
+            this.jumpPresentationTargets.forEach((target) => {
+                const option = document.createElement('option');
+                option.value = target.value;
+                option.textContent = target.label;
+                this.jumpPresentationSelect.append(option);
+            });
+
+            this.jumpSectionTargets.forEach((target) => {
+                const option = document.createElement('option');
+                option.value = target.value;
+                option.textContent = target.label;
+                this.jumpSectionSelect.append(option);
+            });
+        }
+
         completePhase() {
             if (this.phase === 'presentation') {
                 this.audio.playFinishSound();
@@ -243,6 +377,11 @@
 
         getCurrentMcDuration() {
             const current = this.schedule[this.currentIndex];
+            return this.getMcDurationForPresentation(current);
+        }
+
+        getMcDurationForPresentation(presentation) {
+            const current = presentation;
             if (!current) {
                 return this.defaultMcDuration;
             }
@@ -370,6 +509,8 @@
             this.nextTitleEl.textContent = '';
             this.nextSubtitleEl.hidden = true;
             this.nextPresenterEl.textContent = '';
+            this.jumpPresentationSelect.innerHTML = '<option value="">読み込み中...</option>';
+            this.jumpSectionSelect.innerHTML = '<option value="">読み込み中...</option>';
         }
 
         renderPresentationCard(prefix, presentation, isNext = false) {
@@ -433,6 +574,10 @@
             this.resetBtn.disabled = !hasSchedule;
             this.forwardBtn.disabled = !hasSchedule;
             this.backBtn.disabled = !hasSchedule;
+            this.jumpPresentationSelect.disabled = !hasSchedule;
+            this.jumpPresentationBtn.disabled = !hasSchedule;
+            this.jumpSectionSelect.disabled = !hasSchedule || this.jumpSectionTargets.length === 0;
+            this.jumpSectionBtn.disabled = !hasSchedule || this.jumpSectionTargets.length === 0;
         }
 
         renderError(message) {
@@ -451,15 +596,8 @@
             this.nextTitleEl.textContent = '';
             this.nextSubtitleEl.hidden = true;
             this.nextPresenterEl.textContent = '';
-        }
-
-        pause() {
-            if (this.timerId) {
-                window.clearInterval(this.timerId);
-                this.timerId = null;
-            }
-            this.isRunning = false;
-            this.syncControls();
+            this.jumpPresentationSelect.innerHTML = '<option value="">利用不可</option>';
+            this.jumpSectionSelect.innerHTML = '<option value="">利用不可</option>';
         }
     }
 

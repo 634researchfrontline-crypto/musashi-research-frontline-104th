@@ -109,7 +109,7 @@ button {
 	gap: 0.7vh;
 	flex-wrap: wrap;
 	justify-content: flex-end;
-	max-width: min(26vw, 420px);
+	max-width: min(36vw, 700px);
 }
 
 .timer-controls .control-btn:disabled {
@@ -131,6 +131,49 @@ button {
 	text-transform: uppercase;
 	box-shadow: inset 0 0 0.7vh rgba(182, 255, 0, 0.16), 0 0 0.9vh rgba(182, 255, 0, 0.2);
 	transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.jump-controls {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.45vh 0.5vw;
+	align-items: center;
+	width: calc(50% - 0.35vh);
+	min-width: 16vw;
+	padding: 0.4vh 0.5vw;
+	border: 1px solid rgba(182, 255, 0, 0.22);
+	background: rgba(7, 11, 0, 0.72);
+}
+
+.jump-label {
+	grid-column: 1 / span 2;
+	font-size: 1.15vh;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	color: rgba(182, 255, 0, 0.78);
+	text-transform: uppercase;
+}
+
+.jump-select {
+	appearance: none;
+	background: #0b0f02;
+	color: #edffd8;
+	border: 1px solid #365300;
+	font-size: 1.25vh;
+	font-weight: 700;
+	padding: 0.45vh 0.6vh;
+	min-width: 0;
+}
+
+.jump-select:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.jump-btn {
+	min-width: 6.2vw;
+	font-size: 1.2vh;
+	padding: 0.5vh 0.7vh;
 }
 
 .control-btn:hover {
