@@ -102,12 +102,18 @@ body {
 .qr-box {
   width: 30mm;
   height: 30mm;
-  border: 0.45mm dashed var(--green-700);
-  color: var(--green-700);
+  border: 0.32mm solid var(--green-700);
   display: grid;
   place-items: center;
-  font-size: calc(10pt * var(--fit-scale));
-  font-weight: 800;
+  background: #fff;
+  overflow: hidden;
+}
+
+.qr-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .qr-area p {
