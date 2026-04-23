@@ -42,6 +42,12 @@
 		const DAYS = [25, 26];
 		const PURPLE_ID_TIMES = new Set(['11:07', '11:41', '14:37']);
 
+		const shouldUsePurpleId = (presentation) => {
+			const hhmm = formatTime(presentation.time);
+			if (PURPLE_ID_TIMES.has(hhmm)) return true;
+			return Number(presentation.day) === 26 && hhmm === '12:05';
+		};
+
 		const formatTime = (value) => {
 			if (!value) return '';
 			const parts = value.split(':');
@@ -121,7 +127,7 @@
 			const idBadge = document.createElement('span');
 			idBadge.className = 'talk-id';
 			idBadge.textContent = normalizeText(presentation.id);
-			if (PURPLE_ID_TIMES.has(formatTime(presentation.time))) {
+			if (shouldUsePurpleId(presentation)) {
 				idBadge.classList.add('is-purple');
 			}
 
