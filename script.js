@@ -80,11 +80,12 @@ function normalizeText(value) {
 }
 
 function isTeacherGrade(grade) {
-	return normalizeText(grade) === '教員';
+	return normalizeText(grade).includes('教員');
 }
 
 function isObGrade(grade) {
-	return normalizeText(grade).toUpperCase() === 'OB';
+	const normalized = normalizeText(grade);
+	return /OB/i.test(normalized) || /[0-9０-９]+\s*期/.test(normalized);
 }
 
 function buildRoleLabel(item) {
@@ -92,11 +93,11 @@ function buildRoleLabel(item) {
 	const affiliation = normalizeText(item.affiliation);
 
 	if (isTeacherGrade(grade)) {
-		return affiliation ? `${affiliation}教員` : '教員';
+		return grade || (affiliation ? `${affiliation}教員` : '教員');
 	}
 
 	if (isObGrade(grade)) {
-		return affiliation ? `${affiliation}OB` : 'OB';
+		return grade || (affiliation ? `${affiliation}OB` : 'OB');
 	}
 
 	return grade || '学年未定';

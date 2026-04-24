@@ -67,19 +67,22 @@
 				.replaceAll('"', '&quot;')
 				.replaceAll("'", '&#39;');
 
-		const isTeacherGrade = (grade) => normalizeText(grade) === '教員';
-		const isObGrade = (grade) => normalizeText(grade).toUpperCase() === 'OB';
+		const isTeacherGrade = (grade) => normalizeText(grade).includes('教員');
+		const isObGrade = (grade) => {
+			const normalized = normalizeText(grade);
+			return /OB/i.test(normalized) || /[0-9０-９]+\s*期/.test(normalized);
+		};
 
 		const buildRoleLabel = (presentation) => {
 			const grade = normalizeText(presentation.grade);
 			const affiliation = normalizeText(presentation.affiliation);
 
 			if (isTeacherGrade(grade)) {
-				return affiliation ? `${affiliation}教員` : '教員';
+				return grade || (affiliation ? `${affiliation}教員` : '教員');
 			}
 
 			if (isObGrade(grade)) {
-				return affiliation ? `${affiliation}OB` : 'OB';
+				return grade || (affiliation ? `${affiliation}OB` : 'OB');
 			}
 
 			return grade;

@@ -59,7 +59,7 @@
                               "grade":  "高2",
                               "affiliation":  "生物部",
                               "achievements":  "Coming soon...",
-                              "description":  "Coming soon..."
+                              "description":  "テレビや新聞でたまに見る、「新種発見」のニュース。でも「新種」ってそもそも何だろう？分かっているようで意外と分からない生物の「新種」の概念について、発表者が実際に「新種かもしれないクモ」を発見した話も交えながら、分かりやすく説明します。"
                           },
                           {
                               "id":  5,
@@ -186,13 +186,13 @@
                               "day":  25,
                               "section":  1,
                               "time":  "12:23:00",
-                              "title":  "Coming soon...",
+                              "title":  "?",
                               "subtitle":  null,
-                              "presenter":  "Coming soon...",
-                              "grade":  "Coming soon...",
-                              "affiliation":  "Coming soon...",
-                              "achievements":  "Coming soon...",
-                              "description":  "Coming soon..."
+                              "presenter":  "?",
+                              "grade":  "?",
+                              "affiliation":  "?",
+                              "achievements":  "?",
+                              "description":  "?"
                           },
                           {
                               "id":  15,
@@ -213,13 +213,13 @@
                               "section":  2,
                               "time":  "14:03:00",
                               "mc_seconds_before":  "03:00",
-                              "title":  "道化",
+                              "title":  "マツコ・デラックスは面白いだけじゃない！？",
                               "subtitle":  null,
                               "presenter":  "佐藤 雄世",
                               "grade":  "高2",
                               "affiliation":  null,
                               "achievements":  null,
-                              "description":  "「道化」とは何かを語源・歴史を踏まえて解説し、現代における道化が果たしうる役割を喋れたらいいですかね？"
+                              "description":  "「道化」はただ人を笑わせる存在ではなく、社会の中で大切な役割を持っています。ここでは、マツコ・デラックスさんを例に、「道化」とは何か、そしてどのように人の考えや社会に影響を与えているのかを、わかりやすく解説します！"
                           },
                           {
                               "id":  17,
@@ -332,13 +332,13 @@
                               "day":  25,
                               "section":  2,
                               "time":  "15:19:00",
-                              "title":  "Coming soon...",
+                              "title":  "?",
                               "subtitle":  null,
-                              "presenter":  "Coming soon...",
-                              "grade":  "Coming soon...",
-                              "affiliation":  "Coming soon...",
-                              "achievements":  "Coming soon...",
-                              "description":  "Coming soon..."
+                              "presenter":  "?",
+                              "grade":  "?",
+                              "affiliation":  "?",
+                              "achievements":  "?",
+                              "description":  "?"
                           },
                           {
                               "id":  26,
@@ -394,7 +394,7 @@
                               "description":  "「道化」とは何かを語源・歴史を踏まえて解説し、現代における道化が果たしうる役割を喋れたらいいですかね？"
                           },
                           {
-                              "id":  29,
+                              "id":  28,
                               "day":  26,
                               "section":  3,
                               "time":  "11:07:00",
@@ -408,17 +408,17 @@
                               "description":  "Coming soon..."
                           },
                           {
-                              "id":  28,
+                              "id":  4,
                               "day":  26,
                               "section":  3,
                               "time":  "11:15:00",
-                              "title":  "Coming soon...",
+                              "title":  "新種発見？群馬県赤城山で見つけた謎のクモ",
                               "subtitle":  null,
-                              "presenter":  "Coming soon...",
-                              "grade":  "Coming soon...",
-                              "affiliation":  "Coming soon...",
+                              "presenter":  "黒川 将栄",
+                              "grade":  "高2",
+                              "affiliation":  "生物部",
                               "achievements":  "Coming soon...",
-                              "description":  "Coming soon..."                       
+                              "description":  "テレビや新聞でたまに見る、「新種発見」のニュース。でも「新種」ってそもそも何だろう？分かっているようで意外と分からない生物の「新種」の概念について、発表者が実際に「新種かもしれないクモ」を発見した話も交えながら、分かりやすく説明します。"
                           },
                           {
                               "id":  6,
@@ -447,7 +447,7 @@
                               "description":  "戦前の日本陸軍には、ウマの素早さを活かして戦う「騎兵隊」と呼ばれる部隊が存在していました。太平洋戦争において日本がどんどん不利になる中でも、彼らは最後まで素早さを発揮して戦えていたのでしょうか？騎兵の運用方法の変化に焦点を当てて考察してみました。"
                           },
                           {
-                              "id":  30,
+                              "id":  29,
                               "day":  26,
                               "section":  3,
                               "time":  "11:41:00",
@@ -487,11 +487,11 @@
                               "description":  "皆さん先祖について知りたいと思ったことはありますか？皆さんに先祖の調べ方と家系図の作り方を教えます！他にも家系図を作る上での注意点についても教えます！"
                           },
                           {
-                              "id":  31,
+                              "id":  30,
                               "day":  26,
                               "section":  3,
                               "time":  "12:05:00",
-                              "title":  "Coming soon...",
+                              "title":  "高校生による歴史研究のすすめ",
                               "subtitle":  null,
                               "presenter":  "田中 俊輔",
                               "grade":  "100期OB",
@@ -598,13 +598,13 @@
                               "section":  4,
                               "time":  "14:37:00",
                               "mc_seconds_before":  "03:26",
-                              "title":  "Coming soon...",
-                              "subtitle":  null,
+                              "title":  "生徒と覗くミクロの世界",
+                              "subtitle":   "〜生命のプログラムを解読せよ〜",
                               "presenter":  "前廣 清香",
                               "grade":  "理科教員",
-                              "affiliation":  "",
+                              "affiliation":  null,
                               "achievements":  "Coming soon...",
-                              "description":  "Coming soon..."
+                              "description":  "武蔵の理科教育は、本物に触れながら「実感、納得、探究」を通して科学的素養を身につけていくことを目指している。本校では近年、武蔵が掲げる「本物教育」を軸に、大学・研究所レベルの高度な機器を用いた生命科学の探究を行っている。本発表では、肉眼では捉えられないミクロなレベルの実験・解析を通して、生命の複雑なプログラムの一端を読み解いていく試みを紹介する。"
                           },
                           {
                               "id":  12,
