@@ -53,11 +53,11 @@
                               "day":  25,
                               "section":  1,
                               "time":  "10:57:00",
-                              "title":  "Coming soon...",
+                              "title":  "新種発見？群馬県赤城山で見つけた謎のクモ",
                               "subtitle":  null,
-                              "presenter":  "Coming soon...",
-                              "grade":  "Coming soon...",
-                              "affiliation":  "Coming soon...",
+                              "presenter":  "黒川 将栄",
+                              "grade":  "高2",
+                              "affiliation":  "生物部",
                               "achievements":  "Coming soon...",
                               "description":  "Coming soon..."
                           },
@@ -381,7 +381,7 @@
                               "description":  "「川のそばがいい」「坂の上がいい」。練馬区の神社の場所を詳しく調べると、神様ごとに譲れない「こだわり条件」が見えてきました。実は、神様が選んだのは単なる絶景ポイントではなく、水害から街を守るための「地形の境界線」だったのです。100の神社を分析して分かった、神様たちの賢い場所選びのヒミツとは？"
                           },
                           {
-                              "id":  28,
+                              "id":  16,
                               "day":  26,
                               "section":  3,
                               "time":  "10:57:00",
@@ -408,7 +408,7 @@
                               "description":  "Coming soon..."
                           },
                           {
-                              "id":  16,
+                              "id":  28,
                               "day":  26,
                               "section":  3,
                               "time":  "11:15:00",
